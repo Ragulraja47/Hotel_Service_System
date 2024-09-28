@@ -189,11 +189,12 @@ include("db.php");
                             <table id="menu" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>S.NO</th>
-                                        <th>Food</th>
-                                        <th>price</th>
-                                        <th>Qnty</th>
-                                        <th>Select</th>
+                                        <th><center>S.NO</center></th>
+                                        <th><center>Food</center></th>
+                                        <th><center>price</center></th>
+                                        <th><center>Qnty</center></th>
+                                        <th><center>Type</center></th>
+                                        <th><center>Select</center></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -218,6 +219,9 @@ include("db.php");
                                                 <center><input type="number" id="qnty<?php echo $row["id"];?>" style="width: 50px;" required> </center>
                                             </td>
                                             <td>
+                                                <center><?php echo $row["type"] ?></center>
+                                            </td>
+                                            <td>
                                                 <center><button type="button"  data-value1="<?php echo $row["food"]; ?>" data-value2="<?php echo $row["price"]; ?>"  data-value3="<?php echo $row["id"];?>"
                                                         class="btn btn-secondary select">
                                                         <span style="font-size: 15px;">+</span>
@@ -231,10 +235,16 @@ include("db.php");
                             </table>
                         </div>
                     </div>
+                    <div>
+                        <form >
+                        <ul id="selected_menu"></ul>
+                    </div>
+                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary">Place Order</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -287,17 +297,12 @@ include("db.php");
             console.log(price);
             console.log(quantity);
 
-            /*  $ajax({
-                 url:backend.php,
-                 method:"POST",
-                 data:{
-                     "menu_orderd":true,
-                     "id":id
-                 },
-                 success:function(response){
-                     console.log(response);
-                 }
-             }) */
+            var ul = document.getElementById("selected_menu");
+           var li = document.createElement("li");
+           var amount = price*quantity;
+           li.innerHTML = food + " - " + price + " x " + quantity + " = " + amount;
+         ul.appendChild(li);
+
         });
     </script>
 
