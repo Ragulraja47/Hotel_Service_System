@@ -38,7 +38,6 @@ include("db.php");
         #main-wrapper {
             padding-bottom: 50px;
         }
-        
     </style>
 </head>
 
@@ -144,22 +143,18 @@ include("db.php");
                     </div>
 
                     <div class="table-responsive">
+                        <h5>Table No:1</h5>
                         <table id="orders_table" class="table table-striped table-bordered">
                             <thead style="background-color: rgb(220, 20, 70); color: white; ">
                                 <tr>
 
-                                    <th>id</th>
-                                    <th>Name</th>
-                                    <th>Place</th>
-                                    <th>Specialization</th>
-                                    <th>Experience</th>
-                                    <th>phone</th>
-                                    <th>mail id</th>
-                                    <th>rating</th>
-                                    <th>Patients Attended</th>
-
+                                    <th>S.No</th>
+                                    <th>Orders</th>
+                                    <th>Comments</th>
+                                    <th>Total Price</th>
+                                    <th>Time</th>
+                                    <th>status</th>
                                     <th>Action</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -206,17 +201,29 @@ include("db.php");
                                     <?php
                                     $qurey = "SELECT * FROM menu";
                                     $result = mysqli_query($conn, $qurey);
-                                    $s=1;
-                                    while($row = mysqli_fetch_array($result)){
+                                    $s = 1;
+                                    while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                    <tr>
-                                        <td><center><?php echo $s++ ?></center></td>
-                                        <td><center><?php echo $row["food"] ?></center></td>
-                                        <td><center><?php echo $row["price"] ?></center></td>
-                                        <td><center><input type="number" style="width: 50px;" required> </center></td>
-                                        <td><center><button>++</button></center></td>
-                                    </tr>
-                                    <?php 
+                                        <tr>
+                                            <td>
+                                                <center><?php echo $s++ ?></center>
+                                            </td>
+                                            <td>
+                                                <center><?php echo $row["food"] ?></center>
+                                            </td>
+                                            <td>
+                                                <center><?php echo $row["price"] ?></center>
+                                            </td>
+                                            <td>
+                                                <center><input type="number" style="width: 50px;" required> </center>
+                                            </td>
+                                            <td>
+                                                <center><button type="button" value="<?php echo $row["id"]; ?>" class="btn btn-secondary select">
+                                                        <span style="font-size: 15px;">+</span>
+                                                    </button></center>
+                                            </td>
+                                        </tr>
+                                    <?php
                                     }
                                     ?>
                                 </tbody>
@@ -260,10 +267,20 @@ include("db.php");
 
     <script>
         $(document).ready(function(e) {
-            $("#menu").dataTable();
-        })
-    </script>
+            $("#menu").dataTable({
+                "lengthMenu": [
+                    [5, 10, 15],
+                    [5, 10, 15]
+                ]
+            })
+        });
 
+        $(document).on('click',"select",function(e){
+            e.preventDefault();
+            var id = $(this).val();
+            console.log(id);
+        });
+    </script>
 
 
 
