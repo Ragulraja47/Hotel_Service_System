@@ -215,10 +215,10 @@ include("db.php");
                                                 <center><?php echo $row["price"] ?></center>
                                             </td>
                                             <td>
-                                                <center><input type="number" id="qnty" style="width: 50px;" required> </center>
+                                                <center><input type="number" id="qnty<?php echo $row["id"];?>" style="width: 50px;" required> </center>
                                             </td>
                                             <td>
-                                                <center><button type="submit"  data-value1="<?php echo $row["food"]; ?>" data-value2="<?php echo $row["price"]; ?>"
+                                                <center><button type="button"  data-value1="<?php echo $row["food"]; ?>" data-value2="<?php echo $row["price"]; ?>"  data-value3="<?php echo $row["id"];?>"
                                                         class="btn btn-secondary select">
                                                         <span style="font-size: 15px;">+</span>
                                                     </button></center>
@@ -276,12 +276,13 @@ include("db.php");
             })
         });
 
-        $(document).on('submit', ".select", function(e) {
-            e.preventDefault();
-            var quantity = document.getElementById('qnty');
+        $(document).on('click', ".select", function(e) {
+            e.preventDefault();            
             var button = this;
             var food = button.getAttribute('data-value1');
             var price = button.getAttribute("data-value2");
+            var id = button.getAttribute("data-value3");
+            var quantity = document.getElementById('qnty' + id).value;
             console.log(food);
             console.log(price);
             console.log(quantity);
