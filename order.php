@@ -218,7 +218,7 @@ include("db.php");
                                                 <center><input type="number" style="width: 50px;" required> </center>
                                             </td>
                                             <td>
-                                                <center><button type="button" value="<?php echo $row["id"]; ?>" class="btn btn-secondary select">
+                                                <center><button type="button" value1="<?php echo $row["food"]; ?>" value2="<?php echo $row["price"]; ?>" class="btn btn-secondary select">
                                                         <span style="font-size: 15px;">+</span>
                                                     </button></center>
                                             </td>
@@ -275,10 +275,24 @@ include("db.php");
             })
         });
 
-        $(document).on('click',"select",function(e){
+        $(document).on('click',".select",function(e){
             e.preventDefault();
-            var id = $(this).val();
-            console.log(id);
+            var food= $(value1).val();
+            var price = $(value2).val();
+            console.log(food);
+            console.log(price);
+
+           /*  $ajax({
+                url:backend.php,
+                method:"POST",
+                data:{
+                    "menu_orderd":true,
+                    "id":id
+                },
+                success:function(response){
+                    console.log(response);
+                }
+            }) */
         });
     </script>
 
