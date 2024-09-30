@@ -236,13 +236,13 @@ include("db.php");
                         </div>
                     </div>
                     <div>
-                        <form >
+                        <form id="ord_details">
                         <ul id="selected_menu"></ul>
                     </div>
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Place Order</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
                     </div>
                     </form>
                 </div>
@@ -288,7 +288,7 @@ include("db.php");
 
         $(document).on('click', ".select", function(e) {
             e.preventDefault();            
-            var button = this;
+            var button = this;    
             var food = button.getAttribute('data-value1');
             var price = button.getAttribute("data-value2");
             var id = button.getAttribute("data-value3");
@@ -304,6 +304,40 @@ include("db.php");
          ul.appendChild(li);
 
         });
+
+
+        $(document).on("submit","#ord_details",function(e){
+            e.preventDefault();
+           
+
+            var formData = new FormData(this);
+            var ord_list=[];
+            $("#selected_menu li").each(function() {
+        ord_list.push($(this).text());  // Or $(this).val() if you are storing values in attributes
+    });
+    formData.append("list", ord_list
+    .join(","));
+            console.log(formData);
+            formData.append("ord_det",true);
+            $.ajax({
+                url:"backend.php",
+                type:"POST",
+                data:formData,
+                contentType: false,
+                processData: false,
+                success:function(response){
+                    var res = jQuery.parseJSON(response);
+                    if(res.status == 200){
+                        alert("ordered succesfully")
+                    }
+                    else{
+                        alert("Error in ordering");
+                    }
+                }
+                })
+            })
+
+           
     </script>
 
 
