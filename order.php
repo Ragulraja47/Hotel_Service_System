@@ -1,5 +1,12 @@
 <?php
 include("db.php");
+
+$query = "SELECT * FROM orders";
+
+$result = mysqli_query($conn, $query);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -157,9 +164,27 @@ include("db.php");
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            
                             <tbody>
-
+                            <tr>
+                            <?php
+                            
+                                $s  = 1;
+                                while ($row = mysqli_fetch_array($result)){
+                                ?>
+                                <td><?php echo $s++; ?></td>
+                                <td><?php echo $row['order_placed']; ?></td>
+                                <td><?php echo $row['comments']; ?></td>
+                                <td><?php echo $row['amount']?></td>
+                                <td><?php echo $row['time'] ?></td>
+                                <td><?php echo $row['status'] ?></td>
+                                <td><button>Cancel</button>
+                            <button>Edit</button></td>
+                                
+                                </tr>
                             </tbody>
+                            <?php
+                                } ?>
 
 
 
@@ -250,6 +275,7 @@ include("db.php");
                     <div>
                         <form id="ord_details">
                             <ul id="selected_menu"></ul>
+                            <ul id="total_amount"></ul>
                     </div>
 
                     <div class="modal-footer">
@@ -310,10 +336,15 @@ include("db.php");
             console.log(quantity);
 
             var ul = document.getElementById("selected_menu");
+            var ul1 = document.getElementById("total_amount");
             var li = document.createElement("li");
+            var li1 = document.createElement("li");
             var amount = price * quantity;
             li.innerHTML = food +"-"+ quantity;
+            li1.innerHTML = amount;
+
             ul.appendChild(li);
+            ul1.appendChild(li1);
 
         });
 
@@ -329,6 +360,15 @@ include("db.php");
             });
             formData.append("list", ord_list
                 .join(","));
+                var total = 0;
+    $("#total_amount li").each(function() {
+        var amount = parseFloat($(this).text()); // Convert the text to a number
+        if (!isNaN(amount)) {  // Ensure the value is a valid number
+            total += amount;
+        }
+    });
+    formData.append("total_amount", total);
+
             console.log(formData);
             formData.append("ord_det", true);
             $.ajax({
