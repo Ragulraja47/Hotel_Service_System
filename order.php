@@ -189,12 +189,24 @@ include("db.php");
                             <table id="menu" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th><center>S.NO</center></th>
-                                        <th><center>Food</center></th>
-                                        <th><center>price</center></th>
-                                        <th><center>Qnty</center></th>
-                                        <th><center>Type</center></th>
-                                        <th><center>Select</center></th>
+                                        <th>
+                                            <center>S.NO</center>
+                                        </th>
+                                        <th>
+                                            <center>Food</center>
+                                        </th>
+                                        <th>
+                                            <center>price</center>
+                                        </th>
+                                        <th>
+                                            <center>Qnty</center>
+                                        </th>
+                                        <th>
+                                            <center>Type</center>
+                                        </th>
+                                        <th>
+                                            <center>Select</center>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -216,13 +228,13 @@ include("db.php");
                                                 <center><?php echo $row["price"] ?></center>
                                             </td>
                                             <td>
-                                                <center><input type="number" id="qnty<?php echo $row["id"];?>" style="width: 50px;" required> </center>
+                                                <center><input type="number" id="qnty<?php echo $row["id"]; ?>" style="width: 50px;" required> </center>
                                             </td>
                                             <td>
                                                 <center><?php echo $row["type"] ?></center>
                                             </td>
                                             <td>
-                                                <center><button type="button"  data-value1="<?php echo $row["food"]; ?>" data-value2="<?php echo $row["price"]; ?>"  data-value3="<?php echo $row["id"];?>"
+                                                <center><button type="button" data-value1="<?php echo $row["food"]; ?>" data-value2="<?php echo $row["price"]; ?>" data-value3="<?php echo $row["id"]; ?>"
                                                         class="btn btn-secondary select">
                                                         <span style="font-size: 15px;">+</span>
                                                     </button></center>
@@ -237,9 +249,9 @@ include("db.php");
                     </div>
                     <div>
                         <form id="ord_details">
-                        <ul id="selected_menu"></ul>
+                            <ul id="selected_menu"></ul>
                     </div>
-                    
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Place Order</button>
@@ -287,8 +299,8 @@ include("db.php");
         });
 
         $(document).on('click', ".select", function(e) {
-            e.preventDefault();            
-            var button = this;    
+            e.preventDefault();
+            var button = this;
             var food = button.getAttribute('data-value1');
             var price = button.getAttribute("data-value2");
             var id = button.getAttribute("data-value3");
@@ -298,46 +310,43 @@ include("db.php");
             console.log(quantity);
 
             var ul = document.getElementById("selected_menu");
-           var li = document.createElement("li");
-           var amount = price*quantity;
-           li.innerHTML = food + " - " + price + " x " + quantity + " = " + amount;
-         ul.appendChild(li);
+            var li = document.createElement("li");
+            var amount = price * quantity;
+            li.innerHTML = food +"-"+ quantity;
+            ul.appendChild(li);
 
         });
 
 
-        $(document).on("submit","#ord_details",function(e){
+        $(document).on("submit", "#ord_details", function(e) {
             e.preventDefault();
-           
+
 
             var formData = new FormData(this);
-            var ord_list=[];
+            var ord_list = [];
             $("#selected_menu li").each(function() {
-        ord_list.push($(this).text());  // Or $(this).val() if you are storing values in attributes
-    });
-    formData.append("list", ord_list
-    .join(","));
+                ord_list.push($(this).text()); // Or $(this).val() if you are storing values in attributes
+            });
+            formData.append("list", ord_list
+                .join(","));
             console.log(formData);
-            formData.append("ord_det",true);
+            formData.append("ord_det", true);
             $.ajax({
-                url:"backend.php",
-                type:"POST",
-                data:formData,
+                url: "backend.php",
+                type: "POST",
+                data: formData,
                 contentType: false,
                 processData: false,
-                success:function(response){
+                success: function(response) {
                     var res = jQuery.parseJSON(response);
-                    if(res.status == 200){
+                    if (res.status == 200) {
                         alert("ordered succesfully")
-                    }
-                    else{
+                    } else {
                         alert("Error in ordering");
                     }
                 }
-                })
             })
-
-           
+        })
     </script>
 
 
