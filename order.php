@@ -380,7 +380,7 @@ $result = mysqli_query($conn, $query);
                 success: function(response) {
                     var res = jQuery.parseJSON(response);
                     if (res.status == 200) {
-                        alert("ordered succesfully")
+                        alert("ordered succesfully");
                     } else {
                         alert("Error in ordering");
                     }
